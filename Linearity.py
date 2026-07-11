@@ -60,7 +60,7 @@ def calculate_accuracy(y_test, y_pred):
 # Logit = model output before sigmoid
 # Sigmoid = transforms logits into probabilities [0,1]
 
-
+#These three lines code is  a snapshot not a train (we train datas in for loop)
 y_logits = model_0(X_test)[:5]
 y_pred_probs = torch.sigmoid(y_logits)
 y_preds = torch.round(y_pred_probs)
