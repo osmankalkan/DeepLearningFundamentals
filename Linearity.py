@@ -5,6 +5,7 @@ import seaborn as sns
 from sklearn.model_selection import train_test_split
 from torch import nn
 
+""""
 df = pd.read_csv("08-email_classification_svm.csv")
 #print(df.info())
 #print(df["email_type"].unique())
@@ -100,7 +101,7 @@ for epoch in range(epochs):
             print(
                 f"Epoch: {epoch} | Loss: {loss:.5f}, Accuracy: {acc:.2f}% | Test Loss: {test_loss:.5f}, Test Acc: {test_acc:.2f}%")
 
-
+"""
 
 
 

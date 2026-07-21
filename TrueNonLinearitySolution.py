@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from torch import nn
 
+""""
 # Data Preparation
 df = pd.read_csv("08-seismic_activity_svm.csv")
 X = df[['underground_wave_energy', 'vibration_axis_variation']].values
@@ -72,3 +73,5 @@ for epoch in range(epochs):
             train_acc = CalculateAccuracy(y_train, y_pred)
             print(
                 f"Epoch: {epoch} | Loss: {loss:.5f}, Accuracy: {train_acc:.2f}% | Test Loss: {test_loss:.5f}, Test Acc: {test_acc:.2f}%")
+
+"""

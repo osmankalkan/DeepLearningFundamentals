@@ -12,7 +12,7 @@ from torch.xpu import manual_seed
 import numpy as np
 
 
-
+""""
 
 
 
@@ -123,7 +123,7 @@ def plot_decision_boundary(model, X, y):
     plt.show()
 #plot_decision_boundary(model_0, X_test, y_test)
 
-
+"""
 
 
 
