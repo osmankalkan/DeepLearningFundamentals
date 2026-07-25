@@ -10,7 +10,7 @@ from sympy.codegen.ast import float32
 from torch.nn import BCEWithLogitsLoss
 from torch.special import logit
 from torchmetrics.functional import accuracy
-
+""""
 df = pd.read_csv("penguins.csv")
 #print(df.info())
 #print(df.head())
@@ -122,7 +122,7 @@ from sklearn.metrics import confusion_matrix
 import seaborn as sns
 
 epochs_range = range(epochs)
-"""""
+
 cm = confusion_matrix(y_test.numpy(), test_pred.numpy())
 sns.heatmap(cm, annot=True, fmt='d')
 #plt.show()
@@ -152,7 +152,7 @@ plt.ylabel('Loss')
 plt.title('Loss over Epochs')
 plt.legend()
 plt.show()
-"""
+
 
 import joblib # Scaler'ı kaydetmek için
 
@@ -163,3 +163,5 @@ torch.save(model.state_dict(), "penguin_model.pth")
 joblib.dump(scaler, "scaler.pkl")
 
 print("Model ve Scaler başarıyla kaydedildi!")
+
+"""

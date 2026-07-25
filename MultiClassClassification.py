@@ -1,4 +1,4 @@
-
+""""
 import  torch
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -42,7 +42,7 @@ y_test = torch.tensor(y_test,dtype=torch.long)
 
 from torch import nn
 
-""""
+
 #First way
 class IrisClassification(nn.Module):
     def __init__(self):
@@ -55,7 +55,7 @@ class IrisClassification(nn.Module):
 
     def forward(self,x):
         return self.layer_3(self.relu(self.layer_2(self.relu(self.layer_1(x)))))
-"""
+
 
 #second way
 class IrisClassification(nn.Module):
@@ -78,7 +78,7 @@ class IrisClassification(nn.Module):
 model = IrisClassification()
 loss_fn = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters() , lr= 0.01)
-""""
+
 def calculate_accuracy(y_true, y_pred):
     correct = torch.eq(y_true,y_pred).sum().item()
     acc = (correct / len(y_pred)) * 100
@@ -131,7 +131,7 @@ plt.xlabel("Epoch")
 plt.ylabel("Loss")
 plt.legend()
 #plt.show()
-"""
+
 
 #with torchmetrics
 
@@ -165,15 +165,21 @@ for epoch in range (epochs):
         print(
             f"Epoch: {epoch} | Loss: {loss:.5f}, Accuracy: {acc:.2f}% | Test Loss: {test_loss:.5f}, Test Acc: {test_acc:.2f}%")
 
+from pathlib import Path
+
+MODEL_PATH = Path("models")
+MODEL_PATH.mkdir(parents=True,exist_ok=True)
+
+MODEL_NAME = "iris_classification_model.pth"
+MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
+
+torch.save(obj=model2.state_dict(),f=MODEL_SAVE_PATH)
+
+loaded_model = IrisClassification(torch.load(MODEL_SAVE_PATH))
 
 
 
-
-
-
-
-
-
+"""
 
 
 
