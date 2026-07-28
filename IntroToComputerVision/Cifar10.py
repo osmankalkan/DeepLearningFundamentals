@@ -13,6 +13,7 @@ import torchvision
 from torchvision import datasets
 from torchvision.transforms import ToTensor
 
+""""
 train_data = datasets.CIFAR10(
     root="data",
     train=True,
@@ -116,7 +117,7 @@ def calculate_accuracy(y_true,y_pred):
     acc = (correct/len(y_pred))  * 100
 
     return acc
-""""
+
 epochs = 10
 for epoch in range(epochs):
     train_loss = 0
@@ -154,7 +155,7 @@ for epoch in range(epochs):
     #print(f"Train loss: {loss} ,test loss: {test_loss} , test accuracy : {test_acc}")
 
 
-"""""
+
 
 class CIFAR10ClassifierNonLinear(nn.Module):
     def __init__(self,input_shape: int ,hidden_units : int , output_shape: int):
@@ -218,3 +219,4 @@ for epoch in range(epochs):
 
 
     print(f"Train loss: {loss} ,test loss: {test_loss} , test accuracy : {test_acc}")
+"""""
