@@ -1,3 +1,4 @@
+
 import torch
 from torch import nn
 import torchvision
@@ -21,7 +22,7 @@ conv_layer = nn.Conv2d(in_channels=3,
 
 #conv_layer(test_image).shape
 
-x = torch.randn(1,3,32,32)
+x = torch.randn(1,3,64,64)
 print("Input: " , x.shape)
 
 conv1 = nn.Conv2d(in_channels=3,
