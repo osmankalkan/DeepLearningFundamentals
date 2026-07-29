@@ -7,7 +7,7 @@ from torch.nn.functional import linear
 
 ssl._create_default_https_context = lambda: ssl.create_default_context(cafile=certifi.where())
 
-
+""""
 
 import torch
 from torch import nn
@@ -184,10 +184,10 @@ for epoch in range(epochs):
 
 
 def make_predictions(model: torch.nn.Module, data: list):
-    """
+    
     data: [img_tensor, img_tensor, ...]  # her biri [C, H, W]
     return: [N, num_classes] olasılık tensörü
-    """
+    
     pred_probs = []
     model.eval()
 
@@ -256,3 +256,5 @@ show_random_predictions(model_2, test_data, class_names)
 
 #if you want to increase accuracy, try with 0.001 lr rather than 0.01
 #you can obviously try to change hyperparameters like stride, kernel, padding and see if that works out as well
+    
+"""
