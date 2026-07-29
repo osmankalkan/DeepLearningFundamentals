@@ -1,5 +1,7 @@
+import matplotlib.pyplot as plt
 import torch
 from jinja2.optimizer import optimize
+from scipy.cluster.hierarchy import single
 from sympy.physics.vector.printing import params
 from torch import nn
 import numpy as np
@@ -219,6 +221,12 @@ model_0_results = train(model = model_0,
                         loss_fn=loss_fn,
                         optimizer=optimizer,
                         epochs=EPOCHS)
+
+online_image_path = data_path / "baklava-online,jpeg"
+
+import torchvision
+single_image =torchvision.io.read_image(str(online_image_path)).type(dtype=torch.float32)
+plt.imshow(single_image.permute(1,2,0))
 
 
 
