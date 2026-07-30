@@ -39,7 +39,7 @@ from torchvision import datasets ,transforms
 
 data_transform = transforms.Compose([
     transforms.Resize(size=(64,64)),
-    transforms.RandomHorizontalFlip(p=0.35),
+    transforms.RandomHorizontalFlip(p=0.3),
     transforms.TrivialAugmentWide(),
     transforms.ToTensor()
 ])
@@ -123,9 +123,6 @@ class DesertClassifier(nn.Module):
 
 
 
-model_0= DesertClassifier(input_shape=3,
-                          hidden_units=32,
-                          output_shape=len(class_names))
 
 
 from torchinfo import summary
@@ -198,7 +195,8 @@ def train(model: torch.nn.Module,
                                            loss_fn=loss_fn
                                            )
 
-        print(f"Epoch: {epochs} , Train Loss: {train_loss} , Train Acc: {train_acc}, Test Loss: {test_loss}, Test Acc : {test_acc}")
+        print(
+            f"Epoch: {epochs} | Train Loss: {train_loss:.4f} | Train Acc: %{train_acc * 100:.2f} | Test Loss: {test_loss:.4f} | Test Acc: %{test_acc * 100:.2f}")
         results["train_loss"].append(train_loss.item()) if isinstance(train_loss,torch.Tensor) else train_loss
         results["train_acc"].append(train_acc.item()) if isinstance(train_acc,torch.Tensor) else train_acc
         results["test_loss"].append(test_loss.item())if isinstance(test_loss,torch.Tensor) else test_loss
@@ -213,7 +211,7 @@ model_0 = DesertClassifier(input_shape=3,
                            output_shape=len(class_names))
 
 loss_fn = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(params=model_0.parameters(), lr= 0.001)
+optimizer = torch.optim.Adam(params=model_0.parameters(), lr= 0.0003)
 
 model_0_results = train(model = model_0,
                         train_dataloader=train_dataloader,
@@ -222,11 +220,62 @@ model_0_results = train(model = model_0,
                         optimizer=optimizer,
                         epochs=EPOCHS)
 
-online_image_path = data_path / "baklava-online,jpeg"
+# Gerekli kütüphanenin eklendiğinden emin ol
+from PIL import Image
 
-import torchvision
-single_image =torchvision.io.read_image(str(online_image_path)).type(dtype=torch.float32)
-plt.imshow(single_image.permute(1,2,0))
+# 1. Fotoğrafın yolunu belirle (Kendi dosya adına göre güncelle)
+custom_image_path = data_path / "baklava-online.jpg"
+
+# 2. Fotoğrafı aç
+custom_image = Image.open(custom_image_path)
+
+# 3. Test verilerine uyguladığın dönüşümleri (transform) bu fotoğrafa da uygula
+# (Eğitimdeki gibi döndürme vb. yapmıyoruz, sadece boyutlandırıp tensöre çeviriyoruz)
+custom_image_transform = transforms.Compose([
+    transforms.Resize(size=(64, 64)),
+    transforms.ToTensor()
+])
+
+custom_image_transformed = custom_image_transform(custom_image)
+
+# 4. PyTorch modelleri [Batch, Channel, Height, Width] formatı bekler.
+# Bizim resmimiz şu an [3, 64, 64]. Başına bir batch boyutu ekleyerek [1, 3, 64, 64] yapıyoruz.
+custom_image_transformed_with_batch_size = custom_image_transformed.unsqueeze(dim=0)
+
+# 5. Modeli değerlendirme (eval) moduna al
+model_0.eval()
+
+# 6. Tahmin yap (Gereksiz gradyan hesaplamalarını kapatarak hızı artırıyoruz)
+with torch.inference_mode():
+    # Modeli çalıştır ve ham çıktıları (logits) al
+    custom_image_pred_logits = model_0(custom_image_transformed_with_batch_size)
+
+    # Ham çıktıları olasılıklara çevir (Softmax)
+    custom_image_pred_probs = torch.softmax(custom_image_pred_logits, dim=1)
+
+    # En yüksek olasılığa sahip sınıfın indeksini bul
+    custom_image_pred_label = torch.argmax(custom_image_pred_probs, dim=1)
+
+    # İndeksi, class_names listesindeki metin (string) karşılığına çevir
+    custom_image_pred_class = class_names[custom_image_pred_label.cpu().item()]
+
+# 7. Sonucu ekrana yazdır
+print(f"\n--- YENİ FOTOĞRAF TAHMİNİ ---")
+print(f"Tahmin Edilen Sınıf: {custom_image_pred_class}")
+print(f"Emin Olma Oranı: %{custom_image_pred_probs.max().item() * 100:.2f}")
+
+# 8. Fotoğrafı Matplotlib ile başlık ekleyerek göster
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(6, 6))
+plt.imshow(custom_image)
+plt.title(f"Tahmin: {custom_image_pred_class} | Olasılık: %{custom_image_pred_probs.max().item() * 100:.2f}")
+plt.axis("off")
+plt.show()
+
+
+
+
 
 
 
