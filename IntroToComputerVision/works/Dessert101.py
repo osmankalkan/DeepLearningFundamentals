@@ -1,3 +1,4 @@
+"""""
 import matplotlib.pyplot as plt
 import torch
 from jinja2.optimizer import optimize
@@ -273,7 +274,7 @@ plt.title(f"Tahmin: {custom_image_pred_class} | Olasılık: %{custom_image_pred_
 plt.axis("off")
 plt.show()
 
-
+"""
 
 
 
