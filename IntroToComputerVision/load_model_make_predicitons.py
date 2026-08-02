@@ -2,7 +2,7 @@ from scipy.cluster.hierarchy import single
 from scipy.special import logit
 from sympy.printing.pytorch import torch
 
-from model_cration import DesertClassifier
+from model_creation import DesertClassifier
 import torch
 from torchvision import transforms
 import  setup_data

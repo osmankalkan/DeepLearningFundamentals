@@ -1,3 +1,4 @@
+""""
 import torch
 from torch import nn
 
@@ -54,3 +55,4 @@ class DesertClassifier(nn.Module):
     def forward(self,x):
         return self.classifier(self.conv_block_2(self.conv_block_1(x)))
 
+"""
